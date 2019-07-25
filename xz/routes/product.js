@@ -29,9 +29,35 @@ router.get('/list',function(req,res){
   });
 });
 //2.商品详情
+router.get('/detail',function(req,res){
+  //2.1获取数据
+  var obj=req.query;
+  //console.log(obj);
+  //2.2验证数据是否为空
+  if(!obj.lid){
+    res.send({code:401,msg:'lid required'});
+	return;
+  }
+  //2.3执行SQL语句
+  pool.query('SELECT * FROM xz_laptop WHERE lid=?',[obj.lid],function(err,result){
+    if(err) throw err;
+	//console.log(result);
+	//判断是否检索到
+	if(result.length>0){
+	  res.send(result[0]);
+	}else{
+	  res.send({code:301,msg:'can not found'});
+	}
+  });
+  
+});
+
 //3.商品添加
+
 //4.删除商品
+
 //5.修改商品
+
 
 
 //导出路由器
